@@ -1,9 +1,8 @@
-// lib/prisma.ts
+import { PrismaClient } from "@prisma/client"
 
-// Avoid PrismaClient type import causing TS issues
-const { PrismaClient } = require("@prisma/client")
-
-const globalForPrisma = globalThis as any
+const globalForPrisma = globalThis as {
+  prisma?: PrismaClient
+}
 
 export const prisma =
   globalForPrisma.prisma ??
