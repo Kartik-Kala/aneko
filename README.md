@@ -1,10 +1,10 @@
 # Aneko
 
-Aneko is an AI copilot for workplace group food ordering built on Swiggy Food MCP.
+Anekochamber is an AI copilot for workplace group food ordering built on Swiggy Food MCP.
 
 ## What it does
 
-Aneko helps office teams:
+Anekochamber helps office teams:
 
 * Coordinate group food orders
 * Collect team preferences
@@ -38,7 +38,7 @@ Aneko:
 
 ## Architecture
 
-Aneko uses:
+Anekochamber uses:
 
 * Conversational copilot interface
 * Backend orchestration layer
