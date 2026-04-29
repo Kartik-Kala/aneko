@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aneko
 
-## Getting Started
+Aneko is an AI copilot for workplace group food ordering built on Swiggy Food MCP.
 
-First, run the development server:
+## What it does
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Aneko helps office teams:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* Coordinate group food orders
+* Collect team preferences
+* Build shared carts
+* Manage budget controls and approvals
+* Place orders through Swiggy infrastructure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Core Use Case
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A user can request:
 
-## Learn More
+“Order lunch for 10 people under ₹250 each”
 
-To learn more about Next.js, take a look at the following resources:
+Aneko:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Finds restaurants via Swiggy Food MCP
+2. Suggests options
+3. Coordinates preferences
+4. Builds a shared cart
+5. Supports approvals
+6. Places the order
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+* Next.js
+* TypeScript
+* Prisma
+* Supabase Postgres
+* NextAuth
+* Anthropic Claude API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aneko uses:
+
+* Conversational copilot interface
+* Backend orchestration layer
+* Swiggy Food MCP for commerce primitives
+* AI coordination for group ordering decisions
+
+## Status
+
+Prototype in active development.
+Seeking Swiggy Food MCP access for integration and sandbox testing.
