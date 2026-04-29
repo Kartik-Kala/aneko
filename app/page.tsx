@@ -1,196 +1,244 @@
+import Link from 'next/link'
+import Navbar from '@/components/Navbar'
+import ChatMockup from '@/components/ChatMockup'
+import OrderDemo from '@/components/OrderDemo'
+import WaitlistForm from '@/components/WaitlistForm'
+import styles from './page.module.css'
+
+const STEPS = [
+  {
+    num: '01',
+    title: 'Trigger the run',
+    desc: 'Anyone pings @aneko in the group. The bot takes it from there.',
+  },
+  {
+    num: '02',
+    title: 'Aneko asks around',
+    desc: 'The bot DMs everyone or asks in-thread. Collects preferences, dietary notes, budgets.',
+  },
+  {
+    num: '03',
+    title: 'Order assembled',
+    desc: 'Aneko tallies everything into a single consolidated cart with a full breakdown.',
+  },
+  {
+    num: '04',
+    title: 'One click confirm',
+    desc: 'The organiser reviews and places the order. Done.',
+  },
+]
+
+const FEATURES = [
+  {
+    icon: '💬',
+    title: 'Conversational collection',
+    desc: 'People just reply naturally. "Dal, no onion, extra raita" — Aneko parses it all.',
+  },
+  {
+    icon: '⏱',
+    title: 'Smart reminders',
+    desc: "Aneko nudges people who haven't responded yet so the organiser doesn't have to.",
+  },
+  {
+    icon: '💸',
+    title: 'Budget guardrails',
+    desc: "Set a per-person limit. Aneko flags anyone going over before the order is placed.",
+  },
+  {
+    icon: '🥗',
+    title: 'Dietary memory',
+    desc: "Remembers that Priya's vegan and Arjun's gluten-free. Never asks twice.",
+  },
+  {
+    icon: '📋',
+    title: 'Clean order exports',
+    desc: 'One-tap export to share the full breakdown with whoever is placing the order.',
+  },
+  {
+    icon: '🔗',
+    title: 'Any platform',
+    desc: 'Slack, WhatsApp, Teams, Telegram. Wherever your team lives, Aneko is there.',
+  },
+]
+
+const TICKER_ITEMS = [
+  'Group Ordering',
+  'Preference Collection',
+  'Budget Tracking',
+  'Slack Native',
+  'WhatsApp Ready',
+  'Zero Friction',
+  'Instant Tally',
+  'Smart Reminders',
+]
+
+const PLATFORMS = ['Slack', 'WhatsApp', 'Teams', 'Telegram']
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#090909] text-neutral-100 overflow-hidden">
+    <>
+      <Navbar />
 
-      {/* Grain */}
-      <div className="fixed inset-0 opacity-[0.03] bg-[url('/noise.png')] pointer-events-none"/>
-
-      {/* NAV */}
-      <nav className="border-b border-neutral-800 sticky top-0 backdrop-blur-xl bg-[#090909]/80 z-50">
-        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-
-          <div className="flex items-center gap-3 font-semibold text-lg">
-            <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"/>
-            Aneko Chamber
-          </div>
-
-          <div className="hidden md:flex gap-10 text-sm text-neutral-500">
-            <a href="#">Product</a>
-            <a href="#">How it Works</a>
-            <a href="#">Docs</a>
-          </div>
-
-          <button className="bg-orange-500 hover:bg-orange-400 px-5 py-2 rounded-full text-sm font-medium">
-            Request Access
-          </button>
-
-        </div>
-      </nav>
-
-
-      {/* HERO */}
-      <section className="max-w-6xl mx-auto px-6 pt-28 pb-24">
-
-        <div className="grid md:grid-cols-2 gap-20 items-center">
-
-          <div>
-
-            <div className="inline-flex mb-8 border border-orange-500/30 rounded-full px-4 py-2 text-xs tracking-[0.2em] uppercase text-orange-400">
-              Group Order Intelligence
-            </div>
-
-            <h1 className="text-7xl md:text-8xl font-semibold leading-[0.9] tracking-tight mb-8">
-              One bot.
-              <br />
-              Zero food
-              <span className="block text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,.18)]">
-                drama.
-              </span>
-            </h1>
-
-            <p className="text-lg text-neutral-400 leading-relaxed max-w-lg mb-10">
-              Lives inside Slack and WhatsApp. Collects everyone’s meal choices,
-              assembles the cart, and handles the food run automatically.
-            </p>
-
-            <div className="flex gap-4 flex-wrap">
-              <button className="bg-orange-500 hover:bg-orange-400 rounded-full px-7 py-4 font-medium">
-                Add to Slack
-              </button>
-
-              <button className="text-neutral-400 hover:text-white px-4">
-                See demo →
-              </button>
-            </div>
-
-          </div>
-
-
-          {/* Product Mockup */}
-          <div className="rounded-3xl border border-neutral-800 bg-neutral-900 shadow-2xl overflow-hidden">
-
-            <div className="border-b border-neutral-800 px-6 py-4 flex items-center gap-4">
-              <div className="w-8 h-8 rounded-lg bg-blue-500"/>
-              <div>
-                <p className="text-sm">#team-lunch</p>
-                <p className="text-xs text-green-400">Aneko Active</p>
-              </div>
-            </div>
-
-
-            <div className="p-6 space-y-5">
-
-              <div className="flex gap-3">
-                <div className="w-8 h-8 rounded bg-orange-500 flex items-center justify-center text-xs">
-                  AK
-                </div>
-
-                <div className="bg-orange-500/10 border border-orange-500/20 rounded-2xl p-4 text-sm text-orange-200 max-w-sm">
-                  Priya’s doing a Swiggy run in 20 mins — what does everyone want?
-                </div>
+      {/* ── HERO ── */}
+      <section className={styles.hero}>
+        <div className={styles.wrap}>
+          <div className={styles.heroGrid}>
+            <div>
+              <div className={styles.heroTag}>
+                <div className={styles.heroTagDot} />
+                Group Order Intelligence
               </div>
 
+              <h1 className={styles.heroTitle}>
+                One bot.<br />
+                Zero food
+                <span className={styles.heroTitleOutline}>drama.</span>
+              </h1>
 
-              <div className="ml-12 flex gap-2 flex-wrap">
-                {["I'm in","Skip","Options"].map(item=>(
-                  <span
-                    key={item}
-                    className="px-3 py-1 border border-neutral-700 rounded-full text-xs text-neutral-400"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-
-              {[
-                ["Rahul","Paneer butter masala + naan"],
-                ["Deepa","Dal makhani no butter"],
-                ["Arjun","Coke only"]
-              ].map(([name,order])=>(
-                <div key={name} className="flex gap-3">
-                  <div className="w-8 h-8 rounded bg-indigo-500 flex items-center justify-center text-xs">
-                    {name.slice(0,2)}
-                  </div>
-
-                  <div className="bg-neutral-800 border border-neutral-700 rounded-2xl p-4 text-sm">
-                    {order}
-                  </div>
-                </div>
-              ))}
-
-
-              <div className="flex gap-3">
-                <div className="w-8 h-8 rounded bg-orange-500 flex items-center justify-center text-xs">
-                  AK
-                </div>
-
-                <div className="bg-green-500/10 border border-green-500/20 rounded-2xl p-4 text-sm text-green-300">
-                  3 orders assembled • Total ₹820 • Ready to confirm
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* Feature strip */}
-      <section className="border-y border-neutral-800">
-        <div className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-4 gap-10">
-
-          {[
-            "Preference Collection",
-            "Budget Guardrails",
-            "Smart Reminders",
-            "One-click Ordering"
-          ].map(item=>(
-            <div key={item}>
-              <div className="text-orange-400 text-sm mb-4">0{Math.random()*4|0+1}</div>
-              <h3 className="text-xl mb-3">{item}</h3>
-              <p className="text-neutral-500 text-sm">
-                Built to eliminate group order chaos.
+              <p className={styles.heroSub}>
+                Aneko Chamber lives inside your Slack or WhatsApp group. Before
+                a food run, it asks everyone what they want, tallies the order,
+                and handles the rest.
               </p>
-            </div>
-          ))}
 
+              <div className={styles.heroActions}>
+                <Link href="#" className={styles.btnPrimary}>
+                  Add to Slack
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
+                <Link href="#" className={styles.btnGhost}>
+                  See it in action →
+                </Link>
+              </div>
+
+              <div className={styles.platforms}>
+                <span className={styles.platformsLabel}>Works on</span>
+                <div className={styles.platformBadges}>
+                  {PLATFORMS.map((p) => (
+                    <div key={p} className={styles.platformBadge}>{p}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <ChatMockup />
+          </div>
         </div>
       </section>
 
+      {/* ── TICKER ── */}
+      <div className={styles.tickerWrap}>
+        <div className={styles.ticker}>
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+            <span key={i} className={styles.tickerItem}>{item}</span>
+          ))}
+        </div>
+      </div>
 
-      {/* CTA */}
-      <section className="max-w-5xl mx-auto px-6 py-28">
-
-        <div className="rounded-[32px] border border-neutral-800 bg-neutral-900 p-16 text-center">
-          <h2 className="text-5xl md:text-6xl font-semibold mb-6">
-            Stop the lunch
-            <br/>
-            thread chaos.
+      {/* ── HOW IT WORKS ── */}
+      <section className={styles.section} id="how">
+        <div className={styles.wrap}>
+          <div className={styles.sectionLabel}>How it works</div>
+          <h2 className={styles.sectionTitle}>
+            Dead simple.<br />Stupid fast.
           </h2>
-
-          <p className="text-neutral-500 mb-10">
-            First 100 teams get early access.
+          <p className={styles.sectionSub}>
+            Four steps from &quot;someone&apos;s ordering&quot; to &quot;food&apos;s
+            here&quot; — without a single chaotic group message thread.
           </p>
 
-          <div className="flex gap-3 max-w-md mx-auto">
-            <input
-              placeholder="your@company.com"
-              className="flex-1 bg-neutral-800 border border-neutral-700 rounded-xl px-5"
-            />
-
-            <button className="bg-orange-500 rounded-xl px-6 font-medium">
-              Join
-            </button>
-
+          <div className={styles.steps}>
+            {STEPS.map((step) => (
+              <div key={step.num} className={styles.step}>
+                <div className={styles.stepNum}>{step.num}</div>
+                <div className={styles.stepTitle}>{step.title}</div>
+                <div className={styles.stepDesc}>{step.desc}</div>
+              </div>
+            ))}
           </div>
         </div>
-
       </section>
 
-    </main>
-  );
+      {/* ── ORDER DEMO ── */}
+      <section className={`${styles.section} ${styles.sectionNoTop}`}>
+        <div className={styles.wrap}>
+          <div className={styles.split}>
+            <div>
+              <div className={styles.sectionLabel}>The tally</div>
+              <h2 className={styles.sectionTitle}>
+                Every order.<br />One screen.
+              </h2>
+              <p className={styles.sectionSub}>
+                Aneko collects responses from the whole group and builds a clean
+                order summary — who ordered what, at what price, with zero
+                manual work.
+              </p>
+              <br />
+              <Link href="#" className={styles.btnPrimary} style={{ display: 'inline-flex' }}>
+                See live demo →
+              </Link>
+            </div>
+            <OrderDemo />
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURES ── */}
+      <section className={styles.section} id="features">
+        <div className={styles.wrap}>
+          <div className={styles.sectionLabel}>Features</div>
+          <h2 className={styles.sectionTitle}>Built for real teams.</h2>
+
+          <div className={styles.featuresGrid}>
+            {FEATURES.map((feat) => (
+              <div key={feat.title} className={styles.feat}>
+                <div className={styles.featIcon}>{feat.icon}</div>
+                <div className={styles.featTitle}>{feat.title}</div>
+                <div className={styles.featDesc}>{feat.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA / WAITLIST ── */}
+      <section className={styles.ctaSection} id="waitlist">
+        <div className={styles.wrap}>
+          <div className={styles.ctaBox}>
+            <h2 className={styles.ctaTitle}>
+              Stop the lunch<br />thread chaos.
+            </h2>
+            <p className={styles.ctaSub}>
+              Join the waitlist. First 100 teams get free early access.
+            </p>
+            <WaitlistForm />
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
+          <Link href="/" className={styles.footerLogo}>
+            <div className={styles.logoDot} />
+            Aneko Chamber
+          </Link>
+          <div className={styles.footerLinks}>
+            <Link href="#">GitHub</Link>
+            <Link href="#">Twitter</Link>
+            <Link href="#">Docs</Link>
+            <Link href="mailto:hello@anekochamber.com">hello@anekochamber.com</Link>
+          </div>
+        </div>
+      </footer>
+    </>
+  )
 }
