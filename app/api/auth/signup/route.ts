@@ -17,30 +17,31 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // Create user + workspace in one transaction
-    const result = await prisma.$transaction(async (tx) => {
-      const user = await tx.user.create({
-        data: { name, email, password: hashedPassword },
-      })
+    const result = await prisma.$transaction(
+      async (tx: typeof prisma) => {
+        const user = await tx.user.create({
+          data: { name, email, password: hashedPassword },
+        })
 
-      const slug = (workspaceName || `${name}'s Workspace`)
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, "-")
-        .replace(/-+/g, "-")
-        .slice(0, 50) + `-${Date.now()}`
+        const slug = (workspaceName || `${name}'s Workspace`)
+          .toLowerCase()
+          .replace(/[^a-z0-9]/g, "-")
+          .replace(/-+/g, "-")
+          .slice(0, 50) + `-${Date.now()}`
 
-      const workspace = await tx.workspace.create({
-        data: {
-          name: workspaceName || `${name}'s Workspace`,
-          slug,
-          members: {
-            create: { userId: user.id, role: "admin" },
+        const workspace = await tx.workspace.create({
+          data: {
+            name: workspaceName || `${name}'s Workspace`,
+            slug,
+            members: {
+              create: { userId: user.id, role: "admin" },
+            },
           },
-        },
-      })
+        })
 
-      return { user, workspace }
-    })
+        return { user, workspace }
+      }
+    )
 
     return NextResponse.json({
       message: "Account created",

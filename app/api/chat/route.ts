@@ -6,7 +6,6 @@ import { chatWithAneko, aggregatePreferences } from "@/lib/claude"
 export async function POST(req: NextRequest) {
   const { sessionId, shareToken, participantName, message, action } = await req.json()
 
-  // Resolve session
   const orderSession = await prisma.orderSession.findFirst({
     where: shareToken ? { shareToken } : { id: sessionId },
     include: { messages: { orderBy: { createdAt: "asc" } } },
@@ -17,10 +16,12 @@ export async function POST(req: NextRequest) {
   }
 
   if (orderSession.status !== "open") {
-    return NextResponse.json({ error: "Session is no longer accepting orders" }, { status: 400 })
+    return NextResponse.json(
+      { error: "Session is no longer accepting orders" },
+      { status: 400 }
+    )
   }
 
-  // Find or create participant
   let participant = await prisma.sessionParticipant.findFirst({
     where: { sessionId: orderSession.id, name: participantName },
   })
@@ -31,7 +32,6 @@ export async function POST(req: NextRequest) {
     })
   }
 
-  // Save user message
   await prisma.message.create({
     data: {
       sessionId: orderSession.id,
@@ -41,17 +41,20 @@ export async function POST(req: NextRequest) {
     },
   })
 
-  // Build conversation history for this participant
   const participantMessages = orderSession.messages
-    .filter((m) => m.participantId === participant!.id || m.role === "assistant")
-    .map((m) => ({
+    .filter((m: any) =>
+      m.participantId === participant!.id || m.role === "assistant"
+    )
+    .map((m: any) => ({
       role: m.role as "user" | "assistant",
       content: m.content,
     }))
 
-  participantMessages.push({ role: "user", content: message })
+  participantMessages.push({
+    role: "user",
+    content: message,
+  })
 
-  // Get Claude response
   const aiResponse = await chatWithAneko(
     participantMessages,
     orderSession.budget,
@@ -60,7 +63,6 @@ export async function POST(req: NextRequest) {
     participantName
   )
 
-  // Save assistant response
   await prisma.message.create({
     data: {
       sessionId: orderSession.id,
@@ -69,14 +71,16 @@ export async function POST(req: NextRequest) {
     },
   })
 
-  // If action is "aggregate" — build the final cart
   if (action === "aggregate") {
     const allMessages = await prisma.message.findMany({
-      where: { sessionId: orderSession.id, role: "user" },
+      where: {
+        sessionId: orderSession.id,
+        role: "user",
+      },
       include: { participant: true },
     })
 
-    const formatted = allMessages.map((m) => ({
+    const formatted = allMessages.map((m: any) => ({
       role: m.role,
       content: m.content,
       participantName: m.participant?.name || "Guest",
@@ -91,18 +95,26 @@ export async function POST(req: NextRequest) {
 
     await prisma.orderSession.update({
       where: { id: orderSession.id },
-      data: { cartData: cart, status: "aggregating" },
+      data: {
+        cartData: cart,
+        status: "aggregating",
+      },
     })
 
-    return NextResponse.json({ reply: aiResponse, cart })
+    return NextResponse.json({
+      reply: aiResponse,
+      cart,
+    })
   }
 
   return NextResponse.json({ reply: aiResponse })
 }
 
-// GET /api/chat?sessionId=xxx or ?shareToken=xxx — fetch messages
+
+// GET /api/chat
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
+
   const sessionId = searchParams.get("sessionId")
   const shareToken = searchParams.get("shareToken")
 
