@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     include: { messages: { orderBy: { createdAt: "asc" } } },
   })
 
-  if (!orderSession) {.  
+  if (!orderSession) {
     return NextResponse.json({ error: "Session not found" }, { status: 404 })
   }
 
